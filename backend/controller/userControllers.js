@@ -9,15 +9,8 @@ import asyncHandler from 'express-async-handler';
 
 const createUser = asyncHandler(async (req, res) => {
   const { name, email, age } = req.body;
-
-  const alreadyUserExist = await User.findOne({ email });
-
-  if (alreadyUserExist) {
-    res.status(400); //Bad Request
-    throw new Error('User already exist');
-  }
-
-  const user = await User.create({ name, email, age });
+  const user = new User({ name, email, age });
+  await user.save();
 
   if (user) {
     res.status(201).json({
