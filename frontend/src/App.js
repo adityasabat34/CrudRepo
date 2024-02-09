@@ -18,7 +18,8 @@ const App = () => {
         bgGradient="linear(to-r, gray.200, gray.400, white, gray.400, gray.200)"
       >
         <Routes>
-          <Route path="/admin/orderlist" element={<UserScreen />} />
+          <Route path="/" element={<UserScreen />} />
+          <Route path="/edit" element={<UserScreen />} />
         </Routes>
       </Flex>
       <Footer />
