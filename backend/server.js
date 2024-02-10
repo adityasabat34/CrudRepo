@@ -1,9 +1,9 @@
-import exp from 'constants';
 import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import colors from 'colors';
 import userRoutes from './routes/userRoutes.js';
+import { notFound, errorHandler } from './errors/errorHandler.js';
 
 dotenv.config();
 
@@ -17,6 +17,9 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/users', userRoutes);
+
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
