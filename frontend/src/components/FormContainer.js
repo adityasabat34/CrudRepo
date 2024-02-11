@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react';
 
-const FormContainer = ({ children, width = '3xl' }) => {
+const FormContainer = ({ children, width = '4xl' }) => {
   return (
     <Flex
       direction="column"

@@ -6,26 +6,28 @@ import {
   FormLabel,
   Heading,
   Input,
-  // Box,
-  // Icon,
-  // Table,
-  // Tbody,
-  // Td,
-  // Th,
-  // Thead,
-  // Tr,
+  Box,
+  Icon,
+  Table,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
 } from '@chakra-ui/react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { createUser } from '../actions/userActions';
+import { useEffect, useState } from 'react';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { createUser, listUsers, deleteUser } from '../actions/userActions';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
 import Message from '../components/Message';
+import { IoPencilSharp, IoTrashBinSharp } from 'react-icons/io5';
+import { USER_LIST_RESET, USER_UPDATE_RESET } from '../constants/userConstants';
 
 const UserScreen = () => {
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -37,6 +39,15 @@ const UserScreen = () => {
   const userList = useSelector((state) => state.userList);
   const { loading: loadingUser, error: errorUser, users } = userList;
 
+  const userDelete = useSelector((state) => state.userDelete);
+  const { success } = userDelete;
+
+  useEffect(() => {
+    dispatch({ type: USER_LIST_RESET });
+    dispatch({ type: USER_UPDATE_RESET });
+    dispatch(listUsers());
+  }, [dispatch, userData, success]);
+
   const addUserHandler = (e) => {
     e.preventDefault();
     dispatch(createUser(name, email, age));
@@ -46,8 +57,14 @@ const UserScreen = () => {
     setAge(0);
   };
 
+  const deleteHandler = (id) => {
+    if (window.confirm('Are you sure?')) {
+      dispatch(deleteUser(id));
+    }
+  };
+
   return (
-    <Flex w="full" alignItems="center" justifyContent="space-between" py="5">
+    <Flex w="full" alignItems="center" justifyContent="center" py="5">
       <FormContainer>
         <Heading as="h1" mb="8" fontSize="3xl">
           Add User
@@ -65,6 +82,7 @@ const UserScreen = () => {
               placeholder="Your Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              isRequired={true}
             />
           </FormControl>
 
@@ -78,6 +96,7 @@ const UserScreen = () => {
               placeholder="user@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              isRequired={true}
             />
           </FormControl>
 
@@ -89,6 +108,7 @@ const UserScreen = () => {
               placeholder="age"
               value={age}
               onChange={(e) => setAge(e.target.value)}
+              isRequired={true}
             />
           </FormControl>
 
@@ -96,6 +116,58 @@ const UserScreen = () => {
             + Add User
           </Button>
         </form>
+
+        {loadingUser ? (
+          <Loader />
+        ) : errorUser ? (
+          <Message type="error">{error}</Message>
+        ) : (
+          <Box bgColor="white" rounded="lg" shadow="lg" px="5" py="5">
+            <Heading as="h1" fontSize="3xl" mb="5">
+              All Users
+            </Heading>
+            <Table variant="striped" colorScheme="gray" size="sm">
+              <Thead>
+                <Tr>
+                  <Th>ID</Th>
+                  <Th>NAME</Th>
+                  <Th>EMAIL</Th>
+                  <Th>AGE</Th>
+                  <Th></Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {users.map((user) => (
+                  <Tr key={user._id}>
+                    <Td>{user._id}</Td>
+                    <Td>{user.name}</Td>
+                    <Td>{user.email}</Td>
+                    <Td>{user.age}</Td>
+                    <Td>
+                      <Flex justifyContent="flex-end" alignItems="center">
+                        <Button
+                          mr="4"
+                          as={RouterLink}
+                          to={`/edit`}
+                          colorScheme="teal"
+                        >
+                          <Icon as={IoPencilSharp} color="white" size="sm" />
+                        </Button>
+                        <Button
+                          mr="4"
+                          colorScheme="red"
+                          onClick={() => deleteHandler(user._id)}
+                        >
+                          <Icon as={IoTrashBinSharp} color="white" size="sm" />
+                        </Button>
+                      </Flex>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </Box>
+        )}
       </FormContainer>
     </Flex>
   );
