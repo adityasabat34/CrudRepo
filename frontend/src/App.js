@@ -19,7 +19,7 @@ const App = () => {
       >
         <Routes>
           <Route path="/" element={<UserScreen />} />
-          <Route path="/edit" element={<UserScreen />} />
+          <Route path="user/edit" element={<UserScreen />} />
         </Routes>
       </Flex>
       <Footer />

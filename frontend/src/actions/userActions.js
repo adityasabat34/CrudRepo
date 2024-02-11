@@ -25,7 +25,7 @@ export const createUser = (name, email, age) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `/api/user/`,
+      `/api/users/`,
       { name, email, age },
       config
     );
