@@ -71,7 +71,6 @@ const UserScreen = () => {
         </Heading>
 
         {error && <Message type="error">{error}</Message>}
-        {loading && <Loader />}
 
         <form onSubmit={addUserHandler}>
           <FormControl id="name">
@@ -148,7 +147,7 @@ const UserScreen = () => {
                         <Button
                           mr="4"
                           as={RouterLink}
-                          to={`/edit`}
+                          to={`user/edit/${user._id}`}
                           colorScheme="teal"
                         >
                           <Icon as={IoPencilSharp} color="white" size="sm" />

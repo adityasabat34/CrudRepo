@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import UserScreen from './screens/UserScreen';
 import Footer from './components/Footer';
 import Header from './components/Header';
+import UserEditScreen from './screens/UserEditScreen';
 
 const App = () => {
   return (
@@ -19,7 +20,7 @@ const App = () => {
       >
         <Routes>
           <Route path="/" element={<UserScreen />} />
-          <Route path="user/edit" element={<UserScreen />} />
+          <Route path="user/edit/:id" element={<UserEditScreen />} />
         </Routes>
       </Flex>
       <Footer />

@@ -78,7 +78,10 @@ export const userDeleteReducer = (state = {}, action) => {
   }
 };
 
-export const userDetailsReducer = (state = { user: {} }, action) => {
+export const userDetailsReducer = (
+  state = { user: { name: {}, email: {}, age: {} } },
+  action
+) => {
   switch (action.type) {
     case USER_DETAILS_REQUEST:
       return { ...state, loading: true };

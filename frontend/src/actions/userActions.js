@@ -106,11 +106,11 @@ export const deleteUser = (id) => async (dispatch) => {
   }
 };
 
-export const getUserInfo = () => async (dispatch) => {
+export const getUserInfo = (id) => async (dispatch) => {
   try {
     dispatch({ type: USER_DETAILS_REQUEST });
 
-    const { data } = await axios.get(`/api/users/data`);
+    const { data } = await axios.get(`/api/users/${id}`);
 
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
   } catch (err) {

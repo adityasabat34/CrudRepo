@@ -4,6 +4,7 @@ import { thunk } from 'redux-thunk';
 import {
   userCreateReducer,
   userDeleteReducer,
+  userDetailsReducer,
   userListReducer,
   userUpdateReducer,
 } from './reducers/userReducers';
@@ -13,6 +14,7 @@ const reducer = combineReducers({
   userUpdate: userUpdateReducer,
   userList: userListReducer,
   userDelete: userDeleteReducer,
+  userDetails: userDetailsReducer,
 });
 
 const userDataFromStorage = localStorage.getItem('userData')
