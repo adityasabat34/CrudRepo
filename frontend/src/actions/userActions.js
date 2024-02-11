@@ -11,6 +11,9 @@ import {
   USER_DELETE_REQUEST,
   USER_DELETE_SUCCESS,
   USER_DELETE_FAIL,
+  USER_DETAILS_REQUEST,
+  USER_DETAILS_SUCCESS,
+  USER_DETAILS_FAIL,
 } from '../constants/userConstants';
 import axios from 'axios';
 
@@ -95,6 +98,24 @@ export const deleteUser = (id) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: USER_DELETE_FAIL,
+      payload:
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+    });
+  }
+};
+
+export const getUserInfo = () => async (dispatch) => {
+  try {
+    dispatch({ type: USER_DETAILS_REQUEST });
+
+    const { data } = await axios.get(`/api/users/data`);
+
+    dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
+  } catch (err) {
+    dispatch({
+      type: USER_DETAILS_FAIL,
       payload:
         err.response && err.response.data.message
           ? err.response.data.message

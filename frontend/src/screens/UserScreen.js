@@ -16,7 +16,7 @@ import {
   Tr,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { createUser, listUsers, deleteUser } from '../actions/userActions';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
@@ -27,11 +27,11 @@ import { USER_LIST_RESET, USER_UPDATE_RESET } from '../constants/userConstants';
 
 const UserScreen = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [age, setAge] = useState(0);
+  const [age, setAge] = useState();
 
   const userCreate = useSelector((state) => state.userCreate);
   const { loading, error, userData } = userCreate;
@@ -105,7 +105,7 @@ const UserScreen = () => {
             <Input
               id="age"
               type="number"
-              placeholder="age"
+              placeholder="age       e.g 23"
               value={age}
               onChange={(e) => setAge(e.target.value)}
               isRequired={true}
